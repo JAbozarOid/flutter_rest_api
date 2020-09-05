@@ -1,8 +1,9 @@
 # Used to get an access token given an autorization key
 # when a parameters put inside of double brackets {{}} called environment variable
 # for using environment variables we just use @ like for baseurl and authorization like below
-#@baseUrl = https://ncov2019-admin.firebaseapp.com
-#@authorization = c6791d1fc07f89b9ca0b116743f35fbf147a22b0de76c5fd6e4266b9723b25d3
+@baseUrl = https://ncov2019-admin.firebaseapp.com
+@authorization = c6791d1fc07f89b9ca0b116743f35fbf147a22b0de76c5fd6e4266b9723b25d3
+
 # or we can use settings.json for accessing to environment variables
 # when accessing to environment variables in settings.json we must set environment on sandbox at the right bottom of the vscode
 POST {{baseUrl}}/token
