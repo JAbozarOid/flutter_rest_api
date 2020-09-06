@@ -8,3 +8,33 @@
 # when accessing to environment variables in settings.json we must set environment on sandbox at the right bottom of the vscode
 POST {{baseUrl}}/token
 Authorization: Basic {{authorization}}
+ 
+### divider between requests
+
+GET {{baseUrl}}/cases
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### divider between requests
+
+GET {{baseUrl}}/casesSuspected
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### divider between requests
+
+GET {{baseUrl}}/casesConfirmed
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### divider between requests
+
+GET {{baseUrl}}/deaths
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### divider between requests
+
+GET {{baseUrl}}/recovered
+Accept: application/json
+Authorization: Bearer {{accessToken}}
