@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_rest_api/app/services/api_keys.dart';
 
+// this class uses for list of all endpoints
 class API {
   final String apiKey;
 
