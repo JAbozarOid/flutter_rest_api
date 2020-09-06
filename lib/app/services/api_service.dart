@@ -4,6 +4,7 @@ import 'package:flutter_rest_api/app/services/api.dart';
 // if you remove as the http.post is unknown in method getAccessToken method  
 import 'package:http/http.dart' as http;
 
+// use this class for making requests
 class APIService {
   final API api;
 
