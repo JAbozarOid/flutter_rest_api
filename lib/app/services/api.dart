@@ -22,32 +22,35 @@ class API {
   factory API.sanbox() => API(apiKey: APIKeys.ncovSandboxKey);
 
   // *** initialize a static variable
-  //static final String host = 'ncov2019-admin.firebaseapp.com';
-  static final String host = 'apigw.nubentos.com';
-  static final int port = 443;
-  static final String basePath = 't/nubentos.com/ncovapi/1.0.0';
+  static final String host = 'ncov2019-admin.firebaseapp.com';
+  
+  //static final String host = 'apigw.nubentos.com';
+  //static final int port = 443;
+  //static final String basePath = 't/nubentos.com/ncovapi/1.0.0';
 
   // uri class provides functions to encode and decode strings for use in URLS
   // Api Service class will be responsible for converting this uri to string
   Uri tokenUri() => Uri(
         scheme: 'https',
         host: host,
-        port: port,
+        //port: port,
         path: 'token',
-        queryParameters: {'grant_type': 'client_credentials'},
+        //queryParameters: {'grant_type': 'client_credentials'},
       );
 
   Uri endpointUri(Endpoint endpoint) => Uri(
       scheme: 'https',
       host: host,
-      port: port,
-      path: '$basePath/${_path[endpoint]}');
+      //port: port,
+      //path: '$basePath/${_path[endpoint]}'
+      path: _path[endpoint]
+      );
 
   // create a map we will be associate each endpoint to the relative path
   static Map<Endpoint, String> _path = {
     Endpoint.cases: 'cases',
-    Endpoint.casesSuspected: 'cases/suspected',
-    Endpoint.casesConfirmed: 'cases/confirmed',
+    Endpoint.casesSuspected: 'casesSuspected',
+    Endpoint.casesConfirmed: 'casesConfirmed',
     Endpoint.deaths: 'deaths',
     Endpoint.recovered: 'recovered',
   };
