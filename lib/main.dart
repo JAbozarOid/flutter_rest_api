@@ -40,6 +40,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // testing getting accessToken is work correctly
     // we must instatiate APIService class
     final apiService = APIService(API.sanbox());
+    
+    // if we put getAccessToken here means that access token is requested each time(not necessary), we must request access token when the old one has expired
+    // we should implement the necessary logic on a seperate class that we will call "DataRepository"
     final accessToken = await apiService.getAccessToken();
 
     // testing the endpoints responses for cases
