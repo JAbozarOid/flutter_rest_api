@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rest_api/app/services/api.dart';
+import 'package:flutter_rest_api/app/services/api_service.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,44 +30,43 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String _accessToken = '';
 
-  void _incrementCounter() {
-    setState(() {
+  void _updateAccessToken() async {
+    // testing getting accessToken is work correctly
+    // we must instatiate APIService class
+    final apiService = APIService(API.sanbox());
+    final accessToken = await apiService.getAccessToken();
 
-      _counter++;
-    });
+    // finally we must save accessToken as state variable and rebuild our UI
+    setState(() => _accessToken = accessToken);
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
-      
         title: Text(widget.title),
       ),
       body: Center(
-       
         child: Column(
-        
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              '$_accessToken',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _updateAccessToken,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), 
+      ),
     );
   }
 }
