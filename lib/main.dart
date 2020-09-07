@@ -32,14 +32,34 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _accessToken = '';
 
+  // for showing the number of cases we need to declare a state variable
+  int _cases;
+  int _deaths;
+
   void _updateAccessToken() async {
     // testing getting accessToken is work correctly
     // we must instatiate APIService class
     final apiService = APIService(API.sanbox());
     final accessToken = await apiService.getAccessToken();
 
+    // testing the endpoints responses for cases
+    final cases = await apiService.getEndpointData(
+        accessToken: accessToken, endpoint: Endpoint.cases);
+
+    // testing the endpoint responses for deaths
+    final deaths = await apiService.getEndpointData(
+        accessToken: accessToken, endpoint: Endpoint.deaths);
+
     // finally we must save accessToken as state variable and rebuild our UI
-    setState(() => _accessToken = accessToken);
+    // this use of setState method is just use when we want to update one variable
+    //setState(() => _accessToken = accessToken);
+
+    // this use of setState method is just use when we want to update more than one variable
+    setState(() {
+      _accessToken = accessToken;
+      _cases = cases;
+      _deaths = deaths;
+    });
   }
 
   @override
@@ -59,6 +79,16 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_accessToken',
               style: Theme.of(context).textTheme.headline4,
             ),
+            if (_cases != null)
+              Text(
+                'the number of cases are $_cases',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              if (_deaths != null)
+              Text(
+                'the number of deaths are $_deaths',
+                style: Theme.of(context).textTheme.headline4,
+              ),
           ],
         ),
       ),
