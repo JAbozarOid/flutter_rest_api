@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rest_api/app/repositories/data_repository.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
 import 'package:flutter_rest_api/app/services/api_service.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,13 +11,17 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return Provider<DataRepository>(
+      // when don't need the variable use _
+      create: (_) => DataRepository(apiService: APIService(API.sanbox())),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Coronavirus Tracker',
+        theme: ThemeData.dark().copyWith(
+            scaffoldBackgroundColor: Color(0xFF101010),
+            cardColor: Color(0xFF222222)),
+        home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -40,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // testing getting accessToken is work correctly
     // we must instatiate APIService class
     final apiService = APIService(API.sanbox());
-    
+
     // if we put getAccessToken here means that access token is requested each time(not necessary), we must request access token when the old one has expired
     // we should implement the necessary logic on a seperate class that we will call "DataRepository"
     final accessToken = await apiService.getAccessToken();
@@ -87,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'the number of cases are $_cases',
                 style: Theme.of(context).textTheme.headline4,
               ),
-              if (_deaths != null)
+            if (_deaths != null)
               Text(
                 'the number of deaths are $_deaths',
                 style: Theme.of(context).textTheme.headline4,
