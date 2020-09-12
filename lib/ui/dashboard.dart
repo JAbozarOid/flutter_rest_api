@@ -32,13 +32,18 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         title: Text('Coronavirus Tracker'),
       ),
-      body: ListView(
-        children: [
-          EndpointCard(
-            endpoint: Endpoint.cases,
-            value: _cases,
-          )
-        ],
+      body: RefreshIndicator(
+        // onRefresh callBack get the method with the future type of "void"
+        // RefreshIndicator is great when calling REST APIs to refresh data from the server
+        onRefresh: _updateData,
+        child: ListView(
+          children: [
+            EndpointCard(
+              endpoint: Endpoint.cases,
+              value: _cases,
+            )
+          ],
+        ),
       ),
     );
   }
