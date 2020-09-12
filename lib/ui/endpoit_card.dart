@@ -25,7 +25,7 @@ class EndpointCard extends StatelessWidget {
               // 1 this below line
               Text(
                 value != null ? value.toString() : '',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.headline5,
               ),
               // 2 this below line
               //Text(value?.toString() ?? '')
