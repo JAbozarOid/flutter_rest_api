@@ -13,26 +13,34 @@ class DataRepository {
   DataRepository({@required this.apiService});
 
   // use this method to get data for giving endpoint
-  Future<int> getEndpointData(Endpoint endpoint) async {
+  // we must refresh the access token when it has beed expired
+  Future<int> getEndpointData(Endpoint endpoint) async =>
+      await _getDataRefreshingToken<int>(
+        onGetData: () => apiService.getEndpointData(
+            accessToken: _accessToken, endpoint: endpoint),
+      );
+
+  Future<EndpointData> getAllEndpointData() async =>
+      await _getDataRefreshingToken<EndpointData>(
+        onGetData: () => _getAllEndpointsData(),
+      );
+
+  Future<T> _getDataRefreshingToken<T>({Future<T> Function() onGetData}) async {
     try {
       if (_accessToken == null) {
         _accessToken = await apiService.getAccessToken();
       }
-      return await apiService.getEndpointData(
-          accessToken: _accessToken, endpoint: endpoint);
+      return await onGetData();
     } on Response catch (response) {
       // if unauthorized, get access token again -> 401
       if (response.statusCode == 401) {
         _accessToken = await apiService.getAccessToken();
-        return await apiService.getEndpointData(
-            accessToken: _accessToken, endpoint: endpoint);
+        return await onGetData();
       }
       // if there is another error we just throw it
       rethrow;
     }
   }
-
-  // we must refresh the access token when it has beed expired
 
   // the benefit of the using a method that refresh the data at once
   // update data from multiple endpoints
