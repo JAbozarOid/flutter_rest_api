@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rest_api/app/repositories/data_repository.dart';
+import 'package:flutter_rest_api/app/repositories/endpoint_data.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
 import 'package:flutter_rest_api/ui/endpoit_card.dart';
 import 'package:provider/provider.dart';
@@ -11,13 +12,13 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   // we need to update the state, to do that we need state variable
-  int _cases;
+  EndpointData _endpointData;
 
   // loading the data from API
   Future<void> _updateData() async {
     final dataRepository = Provider.of<DataRepository>(context, listen: false);
-    final cases = await dataRepository.getEndpointData(Endpoint.cases);
-    setState(() => _cases = cases);
+    final endpointData = await dataRepository.getAllEndpointData();
+    setState(() => _endpointData = endpointData);
   }
 
   @override
@@ -38,9 +39,10 @@ class _DashboardState extends State<Dashboard> {
         onRefresh: _updateData,
         child: ListView(
           children: [
+            for(var endpoint in Endpoint.values)
             EndpointCard(
-              endpoint: Endpoint.cases,
-              value: _cases,
+              endpoint: endpoint,
+              value: _endpointData != null ? _endpointData.values[endpoint] : null,
             )
           ],
         ),
