@@ -3,6 +3,7 @@ import 'package:flutter_rest_api/app/repositories/data_repository.dart';
 import 'package:flutter_rest_api/app/repositories/endpoints_data.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
 import 'package:flutter_rest_api/ui/endpoit_card.dart';
+import 'package:flutter_rest_api/ui/last_updated_status_text.dart';
 import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
@@ -29,8 +30,12 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final formatter = LastUpdatedDateFormatter(
+        lastUpdated: _endpointData != null
+            ? _endpointData.values[Endpoint.cases].date
+            : null);
     return Scaffold(
-      appBar: AppBar( 
+      appBar: AppBar(
         title: Text('Coronavirus Tracker'),
       ),
       body: RefreshIndicator(
@@ -39,11 +44,23 @@ class _DashboardState extends State<Dashboard> {
         onRefresh: _updateData,
         child: ListView(
           children: [
-            for(var endpoint in Endpoint.values)
-            EndpointCard(
-              endpoint: endpoint,
-              value: _endpointData != null ? _endpointData.values[endpoint].value : null,
-            )
+            // ? maybe the date is null and ? operation handle it
+            // ?? if date.toString was null return ''
+            // show the last update from server
+            LastUpdatedStatusText(
+                text: formatter.lastUpdatedStatusText()
+                 /* _endpointData != null
+                    ? _endpointData.values[Endpoint.cases].date?.toString() ??
+                        ''
+                    : '' */
+                    ),
+            for (var endpoint in Endpoint.values)
+              EndpointCard(
+                endpoint: endpoint,
+                value: _endpointData != null
+                    ? _endpointData.values[endpoint].value
+                    : null,
+              )
           ],
         ),
       ),

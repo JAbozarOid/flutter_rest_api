@@ -4,8 +4,12 @@ import 'package:flutter_rest_api/app/services/api.dart';
 import 'package:flutter_rest_api/app/services/api_service.dart';
 import 'package:flutter_rest_api/ui/dashboard.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  Intl.defaultLocale = 'en_GB';
+  await initializeDateFormatting();
   runApp(MyApp());
 }
 
