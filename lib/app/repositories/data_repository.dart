@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_rest_api/app/repositories/endpoint_data.dart';
+import 'package:flutter_rest_api/app/repositories/endpoints_data.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
 import 'package:flutter_rest_api/app/services/api_service.dart';
+import 'package:flutter_rest_api/app/services/endpoint_data.dart';
 import 'package:http/http.dart';
 
 class DataRepository {
@@ -14,14 +15,14 @@ class DataRepository {
 
   // use this method to get data for giving endpoint
   // we must refresh the access token when it has beed expired
-  Future<int> getEndpointData(Endpoint endpoint) async =>
-      await _getDataRefreshingToken<int>(
+  Future<EndpointData> getEndpointData(Endpoint endpoint) async =>
+      await _getDataRefreshingToken<EndpointData>(
         onGetData: () => apiService.getEndpointData(
             accessToken: _accessToken, endpoint: endpoint),
       );
 
-  Future<EndpointData> getAllEndpointData() async =>
-      await _getDataRefreshingToken<EndpointData>(
+  Future<EndpointsData> getAllEndpointData() async =>
+      await _getDataRefreshingToken<EndpointsData>(
         onGetData: () => _getAllEndpointsData(),
       );
 
@@ -45,7 +46,7 @@ class DataRepository {
   // the benefit of the using a method that refresh the data at once
   // update data from multiple endpoints
   // first step is how to combine together the responses from the multiple API endpoint
-  Future<EndpointData> _getAllEndpointsData() async {
+  Future<EndpointsData> _getAllEndpointsData() async {
     // this method get list of futures as input arguments and return a single future
     // Future.wait() -> all futures execute in parallel(concurrently) -> when all futures have completed, result is returned
     final values = await Future.wait([
@@ -61,7 +62,7 @@ class DataRepository {
           accessToken: _accessToken, endpoint: Endpoint.recovered),
     ]);
 
-    return EndpointData(values: {
+    return EndpointsData(values: {
       // each of these endpoint match the position in coresponding data Future.wait() list
       Endpoint.cases: values[0],
       Endpoint.casesSuspected: values[1],
