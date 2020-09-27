@@ -6,6 +6,7 @@ import 'package:flutter_rest_api/app/repositories/endpoints_data.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
 import 'package:flutter_rest_api/ui/endpoit_card.dart';
 import 'package:flutter_rest_api/ui/last_updated_status_text.dart';
+import 'package:flutter_rest_api/ui/show_alert_dialog.dart';
 import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
@@ -24,8 +25,12 @@ class _DashboardState extends State<Dashboard> {
           Provider.of<DataRepository>(context, listen: false);
       final endpointData = await dataRepository.getAllEndpointData();
       setState(() => _endpointData = endpointData);
-    } on SocketException catch (e) {
-      print(e); 
+    } on SocketException catch (_) {
+      showAlertDialog(
+          context: context,
+          title: 'Connection Error',
+          content: 'Could not retrive data. Please try again later',
+          defaultActionText: 'ok');
     }
   }
 
