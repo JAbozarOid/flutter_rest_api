@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
+import 'package:intl/intl.dart';
 
 class EndpointCardData {
   final String title;
@@ -39,6 +40,14 @@ class EndpointCard extends StatelessWidget {
         color: Color(0xFF70A901)),
   };
 
+  String get formattedValue {
+    if (value == null) {
+      return '';
+    }
+
+    return NumberFormat('#,###,###,###').format(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     final cardData = _cardsData[endpoint];
@@ -52,7 +61,10 @@ class EndpointCard extends StatelessWidget {
             children: [
               Text(
                 cardData.title,
-                style: Theme.of(context).textTheme.headline5.copyWith(color: cardData.color),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(color: cardData.color),
               ),
               SizedBox(
                 height: 4,
@@ -63,12 +75,17 @@ class EndpointCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(cardData.assetName,color: cardData.color,),
+                    Image.asset(
+                      cardData.assetName,
+                      color: cardData.color,
+                    ),
                     // for the checking the value is null or not there two way
                     // 1 this below line
                     Text(
-                      value != null ? value.toString() : '',
-                      style: Theme.of(context).textTheme.headline5.copyWith(color: cardData.color,fontWeight: FontWeight.w500),
+                      //value != null ? value.toString() : '',
+                      formattedValue,
+                      style: Theme.of(context).textTheme.headline5.copyWith(
+                          color: cardData.color, fontWeight: FontWeight.w500),
                     ),
                     // 2 this below line
                     //Text(value?.toString() ?? '')
