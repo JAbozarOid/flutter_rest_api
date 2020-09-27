@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
+import 'package:flutter_rest_api/app/services/endpoint_data.dart';
 
 // create a model class we can use to group together all the data
-class EndpointData {
+class EndpointsData {
   // rather than use like below lines we can use map of endpoint and int
   //final int cases;
   //final int casesSuspected;
@@ -10,16 +11,16 @@ class EndpointData {
   //final int deaths;
   //final int recovered;
 
-  final Map<Endpoint, int> values;
+  final Map<Endpoint, EndpointData> values;
 
-  EndpointData({@required this.values});
+  EndpointsData({@required this.values});
 
   // makes EndpointsData easier to query
-  int get cases => values[Endpoint.cases];
-  int get casesSuspected => values[Endpoint.casesSuspected];
-  int get casesConfirmed => values[Endpoint.casesConfirmed];
-  int get deaths => values[Endpoint.deaths];
-  int get recovered => values[Endpoint.recovered];
+  EndpointData get cases => values[Endpoint.cases];
+  EndpointData get casesSuspected => values[Endpoint.casesSuspected];
+  EndpointData get casesConfirmed => values[Endpoint.casesConfirmed];
+  EndpointData get deaths => values[Endpoint.deaths];
+  EndpointData get recovered => values[Endpoint.recovered];
 
   // for print the debugging information for giving endpoint data object
   @override

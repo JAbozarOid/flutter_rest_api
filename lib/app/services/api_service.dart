@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
+import 'package:flutter_rest_api/app/services/endpoint_data.dart';
 // we use 'as' in import of http for using 'http' as a seperate method for using post request in getAccessToken method
 // if you remove as the http.post is unknown in method getAccessToken method
 import 'package:http/http.dart' as http;
@@ -34,7 +35,7 @@ class APIService {
     throw response;
   }
 
-  Future<int> getEndpointData(
+  Future<EndpointData> getEndpointData(
       {@required String accessToken, @required Endpoint endpoint}) async {
     final uri = api.endpointUri(endpoint);
     final response = await http
@@ -47,13 +48,16 @@ class APIService {
       if (data.isNotEmpty) {
         final Map<String, dynamic> endpointData = data[0];
         final String responseJsonKey = _responseJsonKeys[endpoint];
-        final int result = endpointData[responseJsonKey];
-        if(result != null) {
-          return result;
+        final int value = endpointData[responseJsonKey];
+        final String dataString = endpointData[
+            'date']; // convert this date to date and time object in dart
+        final date = DateTime.tryParse(dataString);
+        if (value != null) {
+          return EndpointData(value: value,date: date);
         }
       }
     }
-     print(
+    print(
         'Request $uri failed\nResponse: ${response.statusCode} ${response.reasonPhrase}');
     throw response;
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rest_api/app/repositories/data_repository.dart';
-import 'package:flutter_rest_api/app/repositories/endpoint_data.dart';
+import 'package:flutter_rest_api/app/repositories/endpoints_data.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
 import 'package:flutter_rest_api/ui/endpoit_card.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   // we need to update the state, to do that we need state variable
-  EndpointData _endpointData;
+  EndpointsData _endpointData;
 
   // loading the data from API
   Future<void> _updateData() async {
@@ -30,7 +30,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( 
         title: Text('Coronavirus Tracker'),
       ),
       body: RefreshIndicator(
@@ -42,7 +42,7 @@ class _DashboardState extends State<Dashboard> {
             for(var endpoint in Endpoint.values)
             EndpointCard(
               endpoint: endpoint,
-              value: _endpointData != null ? _endpointData.values[endpoint] : null,
+              value: _endpointData != null ? _endpointData.values[endpoint].value : null,
             )
           ],
         ),
