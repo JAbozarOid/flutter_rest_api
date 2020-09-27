@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rest_api/app/repositories/data_repository.dart';
 import 'package:flutter_rest_api/app/repositories/endpoints_data.dart';
@@ -17,9 +19,14 @@ class _DashboardState extends State<Dashboard> {
 
   // loading the data from API
   Future<void> _updateData() async {
-    final dataRepository = Provider.of<DataRepository>(context, listen: false);
-    final endpointData = await dataRepository.getAllEndpointData();
-    setState(() => _endpointData = endpointData);
+    try {
+      final dataRepository =
+          Provider.of<DataRepository>(context, listen: false);
+      final endpointData = await dataRepository.getAllEndpointData();
+      setState(() => _endpointData = endpointData);
+    } on SocketException catch (e) {
+      print(e); 
+    }
   }
 
   @override
@@ -47,13 +54,12 @@ class _DashboardState extends State<Dashboard> {
             // ? maybe the date is null and ? operation handle it
             // ?? if date.toString was null return ''
             // show the last update from server
-            LastUpdatedStatusText(
-                text: formatter.lastUpdatedStatusText()
-                 /* _endpointData != null
+            LastUpdatedStatusText(text: formatter.lastUpdatedStatusText()
+                /* _endpointData != null
                     ? _endpointData.values[Endpoint.cases].date?.toString() ??
                         ''
                     : '' */
-                    ),
+                ),
             for (var endpoint in Endpoint.values)
               EndpointCard(
                 endpoint: endpoint,
