@@ -52,8 +52,9 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     final formatter = LastUpdatedDateFormatter(
         lastUpdated: _endpointData != null
-            ? _endpointData.values[Endpoint.cases].date
+            ? _endpointData.values[Endpoint.cases]?.date
             : null);
+    // with ?. after statement _endpointData.values[Endpoint.cases] we check if the statement is not null get the value of date variable
     return Scaffold(
       appBar: AppBar(
         title: Text('Coronavirus Tracker'),
@@ -77,7 +78,7 @@ class _DashboardState extends State<Dashboard> {
               EndpointCard(
                 endpoint: endpoint,
                 value: _endpointData != null
-                    ? _endpointData.values[endpoint].value
+                    ? _endpointData.values[endpoint]?.value
                     : null,
               )
           ],
