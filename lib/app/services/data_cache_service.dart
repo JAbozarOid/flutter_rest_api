@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_rest_api/app/repositories/endpoints_data.dart';
 import 'package:flutter_rest_api/app/services/api.dart';
