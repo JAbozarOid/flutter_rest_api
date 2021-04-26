@@ -17,7 +17,7 @@ class APIService {
   // use this method to get the access token
   // this method return future, because making http request has imediate response from serve so we need asynchnorous
   Future<String> getAccessToken() async {
-    final response = await http.post(api.tokenUri().toString(),
+    final response = await http.post(api.tokenUri(),
         headers: {'Authorization': 'Basic ${api.apiKey}'});
     if (response.statusCode == 200) {
       // because of the response in json format we must decode the json body (get String object)
@@ -39,7 +39,7 @@ class APIService {
       {@required String accessToken, @required Endpoint endpoint}) async {
     final uri = api.endpointUri(endpoint);
     final response = await http
-        .get(uri.toString(), headers: {'Authorization': 'Bearer $accessToken'});
+        .get(uri, headers: {'Authorization': 'Bearer $accessToken'});
 
     if (response.statusCode == 200) {
       // parse response
